@@ -7,7 +7,7 @@ Then new zip goes as normal to your mame folder on MiSTer.
 
 This Script works on Mister or on any Linux box.
 
-After this you van use the provided MRA.
+After this you can use the provided MRA.
 
 
 	Super Bagman ROM locations &c000 to &ffff
