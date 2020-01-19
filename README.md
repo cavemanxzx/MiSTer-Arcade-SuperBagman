@@ -5,7 +5,7 @@ Super Bagman Port to MiSTer by cavemanxzx
 Based on original code by Darfpga, Mist FPGA version by Gehstock and Pickin for
 MiSTer by alanswx.
 
-Manual intervention is needed for use. See "RomInfo.txt" in releases folder. 
+
 
 
 

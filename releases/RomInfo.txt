@@ -1,13 +1,9 @@
+There was a now obsolete shellscript. So only the Information remains.
+
 As the ROM from Super Bagman in &c000 to &ffff is not continous we have to rearrange 
 the ROM in this location.
 
-For this we need the "build_rom_c000_ffff.sh" script and sbagman.zip (merged or non merged)
-from MAME (0.217 used). It extracts the roms, rebuild c000-ffff and repacks the zip.
-Then new zip goes as normal to your mame folder on MiSTer.
 
-This Script works on Mister or on any Linux box.
-
-After this you can use the provided MRA.
 
 
 	Super Bagman ROM locations &c000 to &ffff
