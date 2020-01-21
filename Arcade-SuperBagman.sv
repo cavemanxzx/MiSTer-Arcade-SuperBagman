@@ -99,16 +99,12 @@ assign HDMI_ARY = status[1] ? 8'd9  : status[2] ? 8'd3 : 8'd4;
 
 `include "build_id.v" 
 localparam CONF_STR = {
-	"SUPERBAGMAN;;",
+	"A.SUPERBAGMAN;;",
 	"H0O1,Aspect Ratio,Original,Wide;",
 	"H0O2,Orientation,Vert,Horz;",
 	"O35,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%,CRT 75%;",
 	"-;",
-	"O89,Lives,5,4,3,2;",
-	"OA,Language,French,English;",
-	"OB,Bonus Life,4k,3k;",
-	//"OC,Cabinet,Upright,Cocktail;",	
-	"ODE,Difficulty,Hardest,Hard,Medium,Easy;",	
+	"DIP;",
 	"-;",
 	"R0,Reset;",
 	"J1,Fire1,Fire2,Start 1P,Start 2P,Coin;",
@@ -116,7 +112,7 @@ localparam CONF_STR = {
 
 	"V,v",`BUILD_DATE
 };
-wire [7:0] m_dip = {~status[12],~status[11],~status[10],~status[14:13],1'b1,~status[9:8]};
+
 ////////////////////   CLOCKS   ///////////////////
 
 wire clk_sys, clk_1m, clk_24m,clk_48m;
@@ -141,6 +137,7 @@ wire        forced_scandoubler;
 wire        direct_video;
 
 wire        ioctl_download;
+wire  [7:0] ioctl_index;						
 wire        ioctl_wr;
 wire [24:0] ioctl_addr;
 wire  [7:0] ioctl_dout;
@@ -171,11 +168,15 @@ hps_io #(.STRLEN($size(CONF_STR)>>3)) hps_io
 	.ioctl_wr(ioctl_wr),
 	.ioctl_addr(ioctl_addr),
 	.ioctl_dout(ioctl_dout),
+	.ioctl_index(ioctl_index),
 
 	.joystick_0(joystick_0),
 	.joystick_1(joystick_1),
 	.ps2_key(ps2_key)
 );
+
+reg [7:0] DSW[8];
+always @(posedge clk_sys) if (ioctl_wr && (ioctl_index==254) && !ioctl_addr[24:3]) DSW[ioctl_addr[2:0]] <= ioctl_dout;
 
 wire       pressed = ps2_key[9];
 wire [8:0] code    = ps2_key[8:0];
@@ -326,13 +327,13 @@ sbagman sbagman
 	.down2(m_down_2),
 	.up2(m_up_2),
 
-	.I_DIP_SW(m_dip),
+	.I_DIP_SW(DSW[0]),
 
 	.audio_out(audio),
 
 	.dn_addr(ioctl_addr[16:0]),
 	.dn_data(ioctl_dout),
-	.dn_wr(ioctl_wr)
+	.dn_wr(ioctl_wr && !ioctl_index)
 );
 
 endmodule
