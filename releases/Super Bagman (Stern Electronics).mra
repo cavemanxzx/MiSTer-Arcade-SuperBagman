@@ -13,7 +13,7 @@
 		<dip bits="5"  name="Language" ids="English,French"/>
 		<dip bits="6"  name="Bonus" ids="30K,40K"/>
 	</switches>
-	<rom index='0' amd5='2222517a2015673a770b776b55e5c599' type='merged|nonmerged|split' zip='sbagmans.zip|sbagman.zip'>
+	<rom index='0' md5='70e42256d477d2774574a0fa9ac2e9f7' type='merged|nonmerged|split' zip='sbagmans.zip|sbagman.zip'>
 		<part crc='c19696f2' name='sbag_9e.bin'/>
 		<part crc='ac49cb82' name='6.9f'/>
 		<part crc='9a1c778d' name='7.9j'/>
