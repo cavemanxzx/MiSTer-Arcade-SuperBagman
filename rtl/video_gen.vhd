@@ -20,7 +20,7 @@ port(
 	y_tile      : out std_logic_vector(4 downto 0);
 	x_pixel     : out std_logic_vector(2 downto 0);
 	y_pixel     : out std_logic_vector(2 downto 0);
-
+	mod_nosuper : in std_logic := '0';
 	cpu_clock   : out std_logic
 );
 end video_gen;
@@ -116,13 +116,26 @@ begin
 			elsif vcnt = 250 then vsync <= '1';--
 			end if;    
 
-			if    hcnt = (127+8+2) then hblank <= '1'; -- +8 = retard du shift_register + 1 pixel--
-			elsif hcnt = (255+8+2) then hblank <= '0'; -- +8 = retard du shift_register + 1 pixel--
-			end if;    
-
-			if    vcnt = (495+1+0) then vblank <= '1';
-			elsif vcnt = (271+1+1) then vblank <= '0';
-			end if;   
+			if mod_nosuper = '1' then	
+				if    hcnt = (127+8+1) then hblank <= '1'; -- +8 = retard du shift_register + 1 pixel--
+				elsif hcnt = (255+8+1) then hblank <= '0'; -- +8 = retard du shift_register + 1 pixel--
+				end if;
+			else   
+				if    hcnt = (127+8+2) then hblank <= '1'; -- +8 = retard du shift_register + 1 pixel--
+				elsif hcnt = (255+8+2) then hblank <= '0'; -- +8 = retard du shift_register + 1 pixel--
+				end if;
+			end if; 
+			
+			if mod_nosuper = '1' then	
+				if    vcnt = (495+1+0) then vblank <= '1';
+				elsif vcnt = (271+1+0) then vblank <= '0';
+				end if;
+			else   
+				if    vcnt = (495+1+0) then vblank <= '1';
+				elsif vcnt = (271+1+1) then vblank <= '0';
+				end if;   
+			end if;
+			
 
 		end if;
 	end if;

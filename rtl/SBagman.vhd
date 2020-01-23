@@ -27,6 +27,7 @@ port(
   dn_addr    : in  std_logic_vector(16 downto 0);
   dn_data    : in  std_logic_vector(7 downto 0);
   dn_wr      : in  std_logic;
+  mod_nosuper: in  std_logic;
   
   I_DIP_SW    : in  std_logic_vector(7 downto 0); 
   start2       : in std_logic;
@@ -545,7 +546,8 @@ port map (
   x_pixel    => x_pixel,
   y_pixel    => y_pixel,
 	
-  cpu_clock  => cpu_clock
+  cpu_clock  => cpu_clock,
+  mod_nosuper => mod_nosuper
 );
 
 

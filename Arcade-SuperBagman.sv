@@ -178,6 +178,19 @@ hps_io #(.STRLEN($size(CONF_STR)>>3)) hps_io
 reg [7:0] DSW[8];
 always @(posedge clk_sys) if (ioctl_wr && (ioctl_index==254) && !ioctl_addr[24:3]) DSW[ioctl_addr[2:0]] <= ioctl_dout;
 
+reg mod_super = 0;
+reg mod_orig = 0;
+
+
+always @(posedge clk_sys) begin
+	reg [7:0] mod = 0;
+	if (ioctl_wr & (ioctl_index==1)) mod <= ioctl_dout;
+	mod_super <= (mod == 0);
+	mod_nosuper <= (mod == 1);
+	
+	
+end
+
 wire       pressed = ps2_key[9];
 wire [8:0] code    = ps2_key[8:0];
 always @(posedge clk_sys) begin
@@ -333,7 +346,9 @@ sbagman sbagman
 
 	.dn_addr(ioctl_addr[16:0]),
 	.dn_data(ioctl_dout),
-	.dn_wr(ioctl_wr && !ioctl_index)
+	.dn_wr(ioctl_wr && !ioctl_index),
+	.mod_nosuper(mod_nosuper)
+			   
 );
 
 endmodule
